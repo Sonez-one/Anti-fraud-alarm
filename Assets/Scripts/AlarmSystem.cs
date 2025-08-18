@@ -8,7 +8,7 @@ public class AlarmSystem : MonoBehaviour
 
     private readonly float _minVolume = 0f;
     private readonly float _maxVolume = 1f;
-    private readonly float _volumeStep = 50f;
+    private readonly float _volumeStep = 0.1f;
     private readonly float _delay = 2;
 
     private Coroutine _currentCorutine;
@@ -50,9 +50,6 @@ public class AlarmSystem : MonoBehaviour
         }
 
         _currentCorutine = StartCoroutine(ChangeVolume(_minVolume));
-
-        if (_audioSource.volume == _minVolume)
-            _audioSource.Stop();
     }
 
     private IEnumerator ChangeVolume(float targetValue)
@@ -63,7 +60,10 @@ public class AlarmSystem : MonoBehaviour
         {
             yield return wait;
 
-            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetValue, _volumeStep * Time.deltaTime);
+            _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetValue, _volumeStep * _delay);
         }
+
+        if (_audioSource.volume == _minVolume)
+            _audioSource.Stop();
     }
 }
