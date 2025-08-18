@@ -15,7 +15,6 @@ public class AlarmSystem : MonoBehaviour
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
         _audioSource.volume = _minVolume;
     }
 
@@ -56,7 +55,7 @@ public class AlarmSystem : MonoBehaviour
     {
         var wait = new WaitForSeconds(_delay);
 
-        while (_audioSource.volume != targetValue)
+        while (Mathf.Approximately(_audioSource.volume, targetValue) == false)
         {
             yield return wait;
 
